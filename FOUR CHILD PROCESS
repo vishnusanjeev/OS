@@ -1,0 +1,49 @@
+INPUT:
+
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+void printNumbers(char* name, int start, int end, int step) {    pid_t pid = getpid();
+    printf("%s process ID: %d\n", name, pid);
+    for (int i = start; i <= end; i += step) {
+        printf("%d ", i);
+    }
+    printf("\n");
+}
+int main() {
+    pid_t pid1, pid2, pid3, pid4;
+    pid1 = fork();
+    if (pid1 == 0) {
+        printNumbers("Odd", 1, 10, 2);
+        return 0;
+    }
+    pid2 = fork();
+    if (pid2 == 0) {
+        printNumbers("Even", 2, 10, 2);
+        return 0;
+    }
+    pid3 = fork();
+    if (pid3 == 0) {
+        printNumbers("Multiples of 3", 3, 15, 3);
+        return 0;
+    }
+     pid4 = fork();
+    if (pid4 == 0) {
+        printNumbers("Multiples of 5", 5, 20, 5);
+        return 0;
+    }
+    return 0;
+}
+
+
+OUTPUT:
+
+Odd process ID: 6576
+1 3 5 7 9
+Even process ID: 6580
+2 4 6 8 10
+Multiples of 3 process ID: 6581
+3 6 9 12 15
+Multiples of 5 process ID: 6582
+5 10 15 20
+[Process completed - press Enter]
